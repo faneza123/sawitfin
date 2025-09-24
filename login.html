@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SawitFin - Masuk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .bg-gradient-sawit { background: linear-gradient(135deg, #48874A 70%, #CDE58E); }
+  </style>
+</head>
+<body class="h-screen bg-gray-100">
+
+  <div class="w-full h-screen flex flex-col lg:flex-row">
+    <!-- Kiri -->
+    <div class="w-full lg:w-1/2 bg-gradient-sawit text-white p-10 flex flex-col justify-center items-start relative">
+      <div class="absolute top-6 left-10 flex items-center gap-3">
+        <img src="gambar2.png" alt="SawitFin Logo" class="w-10 h-10 rounded-full bg-white p-1">
+        <span class="text-lg font-semibold">SawitFin</span>
+      </div>
+      <div class="text-left max-w-md mx-auto lg:mx-0">
+        <h1 class="text-5xl font-extrabold mb-6 leading-tight">Selamat Datang<br>Kembali!</h1>
+        <p class="text-lg leading-relaxed">
+          SawitFin hadir untuk membantu Anda dalam mencatat panen, memantau harga, hingga mendapatkan akses pinjaman. Semua hanya dalam satu website!
+        </p>
+      </div>
+    </div>
+
+    <!-- Kanan -->
+    <div class="w-full lg:w-1/2 bg-[#F4FFED] p-10 flex flex-col justify-center items-center">
+      <div class="w-full max-w-sm">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">MASUK</h2>
+
+        <!-- Form Login -->
+        <form onsubmit="return login(event)" class="space-y-5">
+          <!-- Email -->
+          <div>
+            <label for="username" class="block text-sm font-semibold text-gray-700 mb-1">Nama Pengguna/Email</label>
+            <input type="text" id="username" name="username"
+                   class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-[#48874A] focus:outline-none bg-white text-gray-800"
+                   placeholder="Ketik Nama Pengguna/Email">
+          </div>
+
+          <!-- Password + Toggle -->
+          <div>
+            <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Kata Sandi</label>
+            <div class="relative">
+              <input type="password" id="password" name="password"
+                     class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-[#48874A] focus:outline-none bg-white text-gray-800 pr-10"
+                     placeholder="Masukkan Kata Sandi">
+              <button type="button" onclick="togglePassword()" 
+                      class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500">
+                👁
+              </button>
+            </div>
+          </div>
+
+          <!-- Ingat aku + Lupa sandi -->
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" id="remember" class="rounded border-gray-300 text-[#48874A] focus:ring-[#48874A]">
+              Ingat aku
+            </label>
+            <a href="#" class="text-[#48874A] hover:underline">Lupa Kata Sandi?</a>
+          </div>
+
+          <!-- Button -->
+          <button type="submit"
+                  class="w-full py-3 rounded-md font-bold text-white bg-[#FBBF24] hover:bg-yellow-500 transition">
+            Ajukan
+          </button>
+
+          <!-- Teks daftar -->
+          <p class="text-sm text-gray-600 text-center mt-4">
+            Belum punya akun?
+            <a href="register.html" class="text-[#48874A] font-semibold hover:underline">Daftar di sini</a>
+          </p>
+        </form>
+
+        <!-- Error -->
+        <p id="errorMsg" class="text-red-600 text-sm mt-4 text-center hidden">Email atau password salah!</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pwd = document.getElementById("password");
+      pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    function login(event) {
+      event.preventDefault();
+      const email = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const remember = document.getElementById("remember").checked;
+      const errorMsg = document.getElementById("errorMsg");
+
+      // Hardcode validasi
+      if (email === "martinganzz99@gmail.com" && password === "martin_go_GO") {
+        errorMsg.classList.add("hidden");
+
+        // Simpan ke localStorage kalau centang "ingat aku"
+        if (remember) {
+          localStorage.setItem("savedUser", email);
+        } else {
+          localStorage.removeItem("savedUser");
+        }
+
+        window.location.href = "index.html";
+      } else {
+        errorMsg.classList.remove("hidden");
+      }
+    }
+
+    // Auto isi email kalau "ingat aku" sebelumnya dicentang
+    window.onload = () => {
+      const savedUser = localStorage.getItem("savedUser");
+      if (savedUser) {
+        document.getElementById("username").value = savedUser;
+        document.getElementById("remember").checked = true;
+      }
+    };
+  </script>
+
+</body>
+</html>
